@@ -7,11 +7,11 @@
     "merge-stream": "2.0.0",
     "polymer-build": "3.1.4"
   },
-  "description": "new end-user web application for dCache",
+  "description": "monitoring web application for dCache",
   "license": "AGPL-3.0",
   "repository": {
     "type": "git",
-    "url": "git@github.com:dCache/dcache-view.git"
+    "url": "git@github.com:dCache/dcache-view-admin.git"
   },
   "scripts": {
     "prebuild": "npm install && bower install",

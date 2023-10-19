@@ -187,6 +187,7 @@
 
             _handleResponse(event) {
                 this.grid = event.detail.response;
+                console.log(this.grid);
                 google.charts.load('current', {'packages': ['corechart']});
                 google.charts.setOnLoadCallback(this._mapGrid.bind(this));
             }

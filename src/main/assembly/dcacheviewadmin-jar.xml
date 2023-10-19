@@ -1,5 +1,5 @@
 <assembly>
-    <id>dcache-view</id>
+    <id>dcache-view-admin</id>
     <formats>
         <format>jar</format>
     </formats>

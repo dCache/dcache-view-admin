@@ -1,6 +1,6 @@
 # Guide for Contributors
 
-dCache View is built with openness in mind, and the dCache team encourage anyone 
+dCache View Admin is built with openness in mind, and the dCache team encourage anyone 
 in the community to contribute. Here are the ways you can contribute:
 
 1. [Request a feature](#Request-a-feature)
@@ -75,7 +75,7 @@ contextual information. Please provide the following:
  be closed by the pull request. Please refer to these issues in the pull 
  request description using the following syntax:
   
-        Fixes: https://github.com/dCache/dcache-view/issues/135
+        Fixes: https://github.com/dCache/dcache-view-admin/issues/135
 
  8. **Signed-off-by** - Each submitted patch must have a "Signed-off-by" line. 
  Patches without this line will not be accepted. The sign-off is a simple line 
@@ -118,48 +118,6 @@ then you just add a line saying ( git commit -s )
 
 using your real name (sorry, no pseudonyms or anonymous contributions.)
 
-Here is a sample of a commit message
-
- ```markdown
-dcache-view (user-profile): make gravatar optional
-
-Motivation:
-
-If a user account have an email associated with it, a request 
-is sent to check if the email is registered with the Gravatar, 
-and if it is, the image from gravatar is used by dcache-view 
-as the user profile. 
-
-Since this is the current default behaviour of dcache-view, 
-some sites are not happy with this and the preferred behaviour 
-will to make gravatar optional for users.
-
-Modification:
-
-1. properly remove all node inside the user profile section.
-2. add a checkbox in the login form. This enable users to 
-    choose whether to use a gravatar or not. By default, 
-    the checkbox is unchecked. This means that users will 
-    have to specifically check the checkbox to indicate that
-    dcache-view can make a request to the Gravatar
-3. adjust the user-image element
-4. update user-profile and user-profile-dropdown element to 
-    use the adjusted user-image element.
-5. add a section in the user-profile for user to see and sel- 
-    ect the preferred user profile image. There are only two
-    options (identicon and gravatar) available at this time.
-
-Result:
-
-User can now opt-in or out of gravatar.
-
-Target: master
-Request: 1.5
-Request: 1.4
-Fixes: https://github.com/dCache/dcache-view/issues/135
-Signed-off-by: Random J Developer <random@developer.example.org>
- ```
- 
 ### References
 
  - https://stevegury.github.io/2014-05-09/writing-good-commit-message.html

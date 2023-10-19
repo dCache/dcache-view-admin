@@ -22,8 +22,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <meta charset="utf-8">
         <script src="scripts/client-certificate-checker.js"></script>
 
-        <title>dCache View</title>
-        <meta name="description" content="dcache view">
+        <title>dCache View Admin Pages</title>
+        <meta name="description" content="dcache view admin pages">
 
         <!-- Mobile -->
         <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
@@ -59,7 +59,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     <style is="custom-style"
                            include="iron-flex iron-flex-alignment">
                         html {
-                            /*dCache View Color theme definition*/
                             --dv-blue-500: #2196F3;
                             --dv-blue-900: #0D47A1;
 
@@ -96,17 +95,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             @apply(--layout-fullbleed);
                             @apply(--layout-vertical);
                         }
-                        .space {
-                            @apply(--layout-flex);
-                        }
                         .fit {
                             @apply(--layout-fit);
                         }
-                        #listTableHeader {
-                            --paper-toolbar-background: var(--dv-charcoal-grey);
-                            --paper-toolbar-height: 45px;
-                            border-bottom: solid 1px #ccc;
-                            color: #fafafa;
+                        .fit-below {
+                            @apply(--layout-fit);
+                            margin-top: 5px;
                         }
                         paper-drawer-panel {
                             --paper-drawer-panel-left-drawer-container: {background-color: var(--dv-light-grey)};
@@ -131,67 +125,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             outline: 0 solid transparent !important;
                             color: transparent;
                         }
-                        paper-fab.blue {
-                            --paper-fab-background: var(--dv-blue-500);
-                            --paper-fab-keyboard-focus-background: var(--dv-blue-900);
-                        }
-                        paper-fab.teal {
-                            --paper-fab-background: var(--dv-teal-500);
-                            --paper-fab-keyboard-focus-background: var(--dv-teal-900);
-                        }
-                        paper-fab.orange {
-                            --paper-fab-background: var(--dv-orange-500);
-                            --paper-fab-keyboard-focus-background: var(--dv-orange-900);
-                        }
-                        paper-fab.purple {
-                            --paper-fab-background: var(--dv-purple-500);
-                            --paper-fab-keyboard-focus-background: var(--dv-purple-900);
-                        }
-                        paper-fab.brown {
-                            --paper-fab-background: var(--dv-brown-500);
-                            --paper-fab-keyboard-focus-background: var(--dv-brown-900);
-                        }
-                        paper-fab.indigo {
-                            --paper-fab-background: var(--dv-indigo-500);
-                            --paper-fab-keyboard-focus-background: var(--dv-indigo-900);
-                        }
                         paper-fab.green {
                             --paper-fab-background: var(--dv-green-A700);
                             --paper-fab-keyboard-focus-background: var(--dv-green-900);
-                        }
-                        paper-fab.red {
-                            --paper-fab-background: var(--dv-red-500);
-                            --paper-fab-keyboard-focus-background: var(--dv-red-900);
-                        }
-                        #dcache-holder{
-                            position: fixed;
-                            bottom: 0px;
-                        }
-                        #uploadContainer {
-                            position: relative;
-                            top: 70px;
-                            width: 400px;
-                            height: 400px;
-                            background: #E2E2E2;
-                            -moz-border-radius: 200px;
-                            -webkit-border-radius: 200px;
-                            border-radius: 200px;
-                        }
-                        .hidden {
-                            visibility: hidden;
-                        }
-                        #dropZoneToast {
-                            width:100vw;
-                            --paper-toast-background-color: transparent !important;
-                            --paper-toast-box-shadow: none !important;
-                            padding: 0 !important;
-                            pointer-events:none;
-                            background:none !important
-                        }
-                        .paper-material {
-                            padding: 16px;
-                            margin: 0 16px;
-                            display: inline-block;
                         }
                         .shadow-2dp { @apply --shadow-elevation-2dp; }
                         .toast-button {
@@ -209,21 +145,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             border-radius: 5px;
                             background: #e8e8e8;
                         }
-                        .none{
-                            display: none;
-                        }
                     </style>
                 </custom-style>
                 <paper-header-panel class="flex" mode="standard" shadow id="dv-main-header">
-
-                    <paper-toolbar slot="header" class="medium-tall" id="dvMainTopBar">
-                        <paper-icon-button slot="top" icon="menu" on-tap="menuAction" id="mainMenu"
-                                           hidden></paper-icon-button>
+                    <paper-toolbar slot="header" class="medium" id="dvMainTopBar">
                         <span slot="top" class="title" id="mainMenuTitleSpan">[[organisationName]]</span>
                         <div slot="top" id="WhoAmI">
                             <authentication-switch current-route="[[route]]"></authentication-switch>
                         </div>
-                        <div slot="bottom" class="bottom fit" style="height: 70px; background-color: #eee;
+                        <div slot="bottom" class="bottom fit" style="height: 0px; background-color: #eee;
                             display: flex; flex-direction: column; justify-content: center;">
                             <selected-title id="selectedTitle" pg-route="{{route}}"></selected-title>
                         </div>
@@ -231,186 +161,121 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     <div class="fit">
                         <paper-drawer-panel drawer-width="60px" id="dvDrawerPanel">
                             <div class="horizontal layout" slot="drawer">
-
-                                <paper-listbox attr-for-selected="data-route" id="dv-page-navigator"
-                                              selected="[[route]]">
-                                    <template is="dom-if" if="[[config.isSomebody]]">
-                                        <paper-item>
-                                            <a data-route="home" on-tap="lsHomeDir">
-                                                <paper-fab icon="home"
-                                                           title="Your home directory" class="red" mini></paper-fab>
-                                            </a>
-                                        </paper-item>
-                                    </template>
+                                <paper-listbox attr-for-selected="data-route"
+                                               id="dv-page-navigator"
+                                               selected="[[route]]">
                                     <paper-item>
-                                        <a data-route="home" on-tap="namespaceView">
-                                            <paper-fab icon="device:storage"
-                                                       title="Namespace view" class="blue" mini></paper-fab>
+                                        <a data-route="admin"
+                                           href$="{{baseUrl}}admin">
+                                            <!--dashboard-->
+                                            <paper-fab icon="supervisor-account"
+                                                       title="admin"
+                                                       class="green"
+                                                       mini></paper-fab>
                                         </a>
                                     </paper-item>
-
-                                    <paper-item>
-                                        <a data-route="shared-files" href$="{{baseUrl}}shared-files">
-                                            <paper-fab icon="folder-shared"
-                                                       title="shared files" class="orange" mini></paper-fab>
-                                        </a>
-                                    </paper-item>
-
-                                    <paper-item>
-                                        <a data-route="admin" href$="{{baseUrl}}admin"><!--dashboard-->
-                                            <paper-fab icon="supervisor-account" title="admin" class="green" mini></paper-fab>
-                                        </a>
-                                    </paper-item>
-
-                                    <template is="dom-if" if="[[config.isSomebody]]">
-                                        <paper-item>
-                                            <a data-route="virtual" href$="{{baseUrl}}virtual">
-                                                <paper-fab icon="loyalty" title="Virtual directories" class="brown" mini></paper-fab>
-                                            </a>
-                                        </paper-item>
-
-                                    </template>
-
-                                    <template is="dom-if" if="[[config.isSomebody]]">
-                                        <paper-item>
-                                            <a data-route="user-profile" href$="{{baseUrl}}user-profile">
-                                                <paper-fab icon="account-circle" title="Your profile"
-                                                           class="teal" mini></paper-fab>
-                                            </a>
-                                        </paper-item>
-                                    </template>
                                 </paper-listbox>
                             </div>
-
                             <div slot="main">
-                                <paper-drawer-panel id="metadata" responsive-width="300000px"
-                                                    right-drawer drawer-width="400px" disable-swipe>
-                                    <paper-header-panel id="metadataDrawer" slot="drawer">
-                                        <paper-scroll-header-panel class="flex">
-                                            <paper-toolbar style="background:#fafafa; color:#333;" slot="header">
-                                                <span>Oops!</span>
+                                <iron-pages attr-for-selected="data-route" selected="{{route}}">
+                                    <section data-route="admin" class="fit"
+                                             style="background-color:#ECECEC;">
+                                        <div class="shadow-2dp" main
+                                             style="margin:40px; padding:15px; background:#fdfdfd;">
+                                            <paper-toolbar>
+                                                <div slot="top" class="title"
+                                                     style="text-align: center">
+                                                    admin toolbox
+                                                </div>
                                             </paper-toolbar>
-                                            <div slot="content">
-                                                You are not suppose to see this :(-
-                                            </div>
-                                        </paper-scroll-header-panel>
-                                    </paper-header-panel>
+                                            <admin-page></admin-page>
+                                        </div>
+                                    </section>
 
-                                    <div slot="main">
-                                        <iron-pages attr-for-selected="data-route" selected="{{route}}">
-                                            <section data-route="home" class="fit" style="background-color:#ECECEC;">
-                                                <paper-header-panel mode="seamed" class="flex">
-                                                    <paper-toolbar id="listTableHeader" slot="header">
-                                                        <list-row-header slot="top"></list-row-header>
-                                                    </paper-toolbar>
-                                                    <div class="fit" id="homedir" style="padding: 0 30px;"
-                                                         on-contextmenu="currentDirContext"
-                                                         on-drop="drop" on-dragenter="dragenter"
-                                                         on-dragleave="dragleave" on-dragend="dragend"
-                                                         on-dragexit="dragexit" on-click="click"></div>
-                                                </paper-header-panel>
-                                            </section>
-
-                                            <section data-route="shared-files"
-                                                     class="fit" style="background-color:#ececec;">
-                                                <shared-files-page id="shared-with-me" on-click="click"
-                                                                   on-contextmenu="currentDirContext"
-                                                                   on-drop="drop" on-dragenter="dragenter"
-                                                                   on-dragleave="dragleave" on-dragend="dragend"
-                                                                   on-dragexit="dragexit"></shared-files-page>
-                                            </section>
-
-                                            <section data-route="admin" class="fit"
-                                                     style="background-color:#ECECEC;">
-                                                <div class="shadow-2dp" main
-                                                        style="margin:40px; padding:15px; background:#fdfdfd;">
-                                                    <paper-toolbar>
-                                                        <div slot="top" class="title"
-                                                             style="text-align: center">admin toolbox</div>
-                                                    </paper-toolbar>
-                                                    <admin-page></admin-page>
-                                                </div>
-                                            </section>
-
-                                            <section data-route="user-login" class="fit" style="background-color:#686868;">
-                                                <div main id="loginSection"></div>
-                                            </section>
-
-                                            <section data-route="admin-component-page" class="fit"
-                                                     style="background-color:#ECECEC;">
-                                                <div main>
-                                                    <iron-pages attr-for-selected="admin-component"
-                                                                selected="{{params.component}}">
-                                                        <section admin-component="alarms" class="fit"
-                                                                 style="background-color:#ECECEC;">
-                                                            <div id="alarmsContainer"/>
-                                                        </section>
-                                                        <section admin-component="cell-services" class="fit"
-                                                                 style="background-color:#ECECEC;">
-                                                            <div id="cellInfoContainer"/>
-                                                        </section>
-                                                        <section admin-component="pool-info" class="fit"
-                                                                 style="background-color:#ECECEC;">
-                                                            <div id="poolInfoContainer"/>
-                                                        </section>
-                                                        <section admin-component="active-transfers" class="fit"
-                                                                 style="background-color:#ECECEC;">
-                                                            <div id="transfersContainer"/>
-                                                        </section>
-                                                        <section admin-component="tape-transfer-queue" class="fit"
-                                                                 style="background-color:#ECECEC;">
-                                                            <div id="restoresContainer"/>
-                                                        </section>
-                                                        <section admin-component="billing-plots" class="fit"
-                                                                 style="background-color:#ECECEC;">
-                                                            <div id="billingPlotsContainer"/>
-                                                        </section>
-                                                        <section admin-component="pool-group-lifetime" class="fit"
-                                                                 style="background-color:#ECECEC;">
-                                                            <div id="poolGroupLifetimeContainer"/>
-                                                        </section>
-                                                        <section admin-component="pool-plots" class="fit"
-                                                                 style="background-color:#ECECEC;">
-                                                            <div id="poolPlotsContainer"/>
-                                                        </section>
-                                                        <section admin-component="pool-selection" class="fit"
-                                                                 style="background-color:#ECECEC;">
-                                                            <div id="selectionUnitContainer"/>
-                                                        </section>
-                                                        <section admin-component="quota-info" class="fit"
-                                                                 style="background-color:#ECECEC;">
-                                                            <div id="quotaInfoContainer"/>
-                                                        </section>
-                                                        <section admin-component="space-tokens" class="fit"
-                                                                 style="background-color:#ECECEC;">
-                                                            <div id="spaceManagementContainer"/>
-                                                        </section>
-                                                    </iron-pages>
-                                                </div>
-                                            </section>
-
-                                            <section data-route="virtual" class="fit"
-                                                     style="background-color:#ECECEC; overflow-y: auto !important;">
-                                                <div main id="virtualDirectoriesContainer" style="padding-bottom: 10px;"
-                                                    on-contextmenu="currentDirContext"
-                                                    on-drop="drop" on-dragenter="dragenter"
-                                                    on-dragleave="dragleave" on-dragend="dragend"
-                                                    on-dragexit="dragexit" on-click="click">
-                                                </div>
-                                            </section>
-                                            <section data-route="user-profile" class="fit"
-                                                     style="background-color:#ECECEC; overflow-y: auto !important;">
-                                                <div main id="userProfileContainer" style="padding-bottom: 10px;"></div>
-                                            </section>
-                                        </iron-pages>
-                                    </div>
-                                </paper-drawer-panel>
+                                    <section data-route="admin-component-page"
+                                             class="fit"
+                                             style="background-color:#ECECEC;">
+                                        <div main>
+                                            <iron-pages
+                                                    attr-for-selected="admin-component"
+                                                    selected="{{params.component}}">
+                                                <section
+                                                        admin-component="alarms"
+                                                        class="fit-below"
+                                                        style="background-color:#ECECEC;">
+                                                    <div id="alarmsContainer"/>
+                                                </section>
+                                                <section
+                                                        admin-component="cell-services"
+                                                        class="fit-below"
+                                                        style="background-color:#ECECEC;">
+                                                    <div id="cellInfoContainer"/>
+                                                </section>
+                                                <section
+                                                        admin-component="pool-info"
+                                                        class="fit-below"
+                                                        style="background-color:#ECECEC;">
+                                                    <div id="poolInfoContainer"/>
+                                                </section>
+                                                <section
+                                                        admin-component="active-transfers"
+                                                        class="fit-below"
+                                                        style="background-color:#ECECEC;">
+                                                    <div id="transfersContainer"/>
+                                                </section>
+                                                <section
+                                                        admin-component="tape-transfer-queue"
+                                                        class="fit-below"
+                                                        style="background-color:#ECECEC;">
+                                                    <div id="restoresContainer"/>
+                                                </section>
+                                                <section
+                                                        admin-component="billing-plots"
+                                                        class="fit-below"
+                                                        style="background-color:#ECECEC;">
+                                                    <div id="billingPlotsContainer"/>
+                                                </section>
+                                                <section
+                                                        admin-component="pool-group-lifetime"
+                                                        class="fit-below"
+                                                        style="background-color:#ECECEC;">
+                                                    <div id="poolGroupLifetimeContainer"/>
+                                                </section>
+                                                <section
+                                                        admin-component="pool-plots"
+                                                        class="fit-below"
+                                                        style="background-color:#ECECEC;">
+                                                    <div id="poolPlotsContainer"/>
+                                                </section>
+                                                <section
+                                                        admin-component="pool-selection"
+                                                        class="fit-below"
+                                                        style="background-color:#ECECEC;">
+                                                    <div id="selectionUnitContainer"/>
+                                                </section>
+                                                <section
+                                                        admin-component="quota-info"
+                                                        class="fit-below"
+                                                        style="background-color:#ECECEC;">
+                                                    <div id="quotaInfoContainer"/>
+                                                </section>
+                                                <section
+                                                        admin-component="space-tokens"
+                                                        class="fit-below"
+                                                        style="background-color:#ECECEC;">
+                                                    <div id="spaceManagementContainer"/>
+                                                </section>
+                                            </iron-pages>
+                                        </div>
+                                    </section>
+                                </iron-pages>
                             </div>
                         </paper-drawer-panel>
                     </div>
                 </paper-header-panel>
                 <!-- HERE IS A CENTRAL DIALOG BOX  -->
-                <central-dialog-box id="centralDialogBox" modal role="alertdialog">
+                <central-dialog-box id="centralDialogBox" modal
+                                    role="alertdialog">
                 </central-dialog-box>
 
                 <!--  HERE IS A CUSTOM CONTEXT MENU BOX -->
@@ -434,32 +299,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                        onclick="app.$.toast.hide()"></paper-icon-button>
                 </paper-toast>
 
-                <paper-toast id="uploadToast" text="Upload Status Panel" duration="0">
-                    <paper-button onclick="uploadToast.toggle()" class="yellow-button" style="margin-left:240px;">
-                        Close
-                    </paper-button>
-                    <div id="uploadList"
-                         style="max-height:500px; max-width:460px; overflow-y: auto; overflow-x: hidden"></div>
-                </paper-toast>
-
-                <paper-toast id="dropZoneToast" duration="[[closingTime]]"
-                             class="fit-bottom" on-iron-overlay-closed="dndToastClosed">
-                    <div id="dropZoneContent" style="width:100%; display:flex;">
-                        <drag-enter-toast></drag-enter-toast>
-                    </div>
-                </paper-toast>
-
                 <!-- PLACEHOLDER FOR STACKING INFO DIALOGS (ADMIN) -->
                 <div id="adminDialogs"></div>
-
-                <a id="download" class="none">fm</a>
-                <files-viewer-overlay id="filesViewerOverlay"
-                                      scroll-action="lock" with-backdrop></files-viewer-overlay>
             </template>
             <script src="scripts/dv.js"></script>
-            <script src="bower_components/pdfjs-dist/build/pdf.min.js" async></script>
-            <script src="scripts/discover-webdav-doors.js" async></script>
-            <script src="scripts/sse-channel-utilities.js" async></script>
+            <script src="bower_components/pdfjs-dist/build/pdf.min.js"
+                    async></script>
         </dom-bind>
     </body>
 </html>

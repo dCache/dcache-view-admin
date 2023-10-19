@@ -42,13 +42,6 @@
         page('/', function() {
             app.route = 'home';
             app.params = "";
-
-            const currentVF = app.$["homedir"].querySelector('view-file');
-            if (!currentVF) {
-                const newVF = new ViewFile("/");
-                app.$["homedir"].appendChild(newVF);
-                newVF.__listDirectory();
-            }
         });
 
         page(app.baseUrl, function(e) {
@@ -129,82 +122,6 @@
                 app.$.spaceManagementContainer.appendChild(new SpaceManagementView());
                 return;
             }
-        });
-
-        page('/user-login', function(ctx) {
-            app.removeAllChildren(app.$.loginSection);
-            app.$.loginSection.appendChild(new UserLoginPage(JSON.parse(`\{${ctx.querystring.substr(2)}\}`)));
-            app.$.dvDrawerPanel.forceNarrow = true;
-            app.$.dvMainTopBar.style.display = 'none';
-            app.route = 'user-login';
-            app.params = "";
-        });
-
-        page('/user-profile', function() {
-            if (!window.CONFIG.isSomebody) {
-                const a = '"page":"user-profile","path":""';
-                let pathName = '/user-login?r=' + encodeURIComponent(a);
-                page.redirect(pathName);
-                return;
-            }
-
-
-
-
-            let up = new UserProfile();
-            app.removeAllChildren(app.$.userProfileContainer);
-            app.$.userProfileContainer.appendChild(up);
-            app.route = 'user-profile';
-            app.params = "";
-        });
-
-      page('/virtual', function() {
-
-        if (!window.CONFIG.isSomebody) {
-
-          const a = '"page":"virtual","path":""';
-
-          let pathName = '/user-login?r=' + encodeURIComponent(a);
-
-          page.redirect(pathName);
-
-          return;
-
-        }
-        let vd = new ViewFileLabels();
-        app.removeAllChildren(app.$.virtualDirectoriesContainer);
-        app.$.virtualDirectoriesContainer.appendChild(vd);
-        app.route = 'virtual';
-        app.params = "";
-        vd.__listDirectoryLabel();
-      });
-
-        page('/shared-link', function (dt) {
-            app.route = 'shared-link';
-            if (dt.querystring) {
-                const arr = dt.querystring.split('&');
-                if (arr.length === 0 || !dt.querystring.includes("m=")) {
-                    page.redirect(app.baseUrl);
-                    window.dispatchEvent(new CustomEvent('dv-namespace-show-message-toast', {
-                        detail: {
-                            message: "Bad Request. The query parameter of the shareable link must contain the macaroon."
-                        }, bubbles: true,
-                        composed: true
-                    }));
-                    return;
-                }
-                const macaroon = arr.filter(function(el) {
-                    if(el.match('m') !== null) return true; })[0].split('=')[1];
-                app.$['selectedTitle']._shared();
-                window.dispatchEvent(new CustomEvent('dv-namespace-file-sharing-add-macaroon', {
-                    detail: {macaroon: macaroon}}));
-            }
-            page.redirect("/shared-files");
-        });
-
-        page('/shared-files', function () {
-            app.route = 'shared-files';
-            app.params = "";
         });
 
         // 404

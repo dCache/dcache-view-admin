@@ -1,9 +1,9 @@
 {
-  "name": "dcache-view",
+  "name": "dcache-view-admin",
   "authors": [
-    "Olufemi Adeyemi <olufemi.segun.adeyemi@desy.de>"
+    "Albert L. ROssi <arossi@fnal.gov>"
   ],
-  "description": "A Web application that provide an easy to use User Interface for dCache System",
+  "description": "A Web application that provides monitoring views for a dCache installation",
   "main": "",
   "moduleType": [],
   "license": "GNU Affero General Public License",
@@ -39,6 +39,5 @@
   },
   "resolutions": {
     "dcache-namespace": "0.1.2"
-
   }
 }

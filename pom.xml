@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.dcache</groupId>
-    <artifactId>dcache-view</artifactId>
+    <artifactId>dcache-view-admin</artifactId>
     <version>2.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <inceptionYear>2016</inceptionYear>
@@ -47,13 +47,13 @@
 
     <issueManagement>
         <system>GitHub</system>
-        <url>http://github.com/dCache/dcache-view/issues/</url>
+        <url>http://github.com/dCache/dcache-view-admin/issues/</url>
     </issueManagement>
 
     <scm>
-        <url>https://github.com/dCache/dcache-view</url>
-        <connection>scm:git:https://github.com/dCache/dcache-view.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/dCache/dcache-view.git</developerConnection>
+        <url>https://github.com/dCache/dcache-view-admin</url>
+        <connection>scm:git:https://github.com/dCache/dcache-view-admin.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/dCache/dcache-view-admin.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
 
@@ -110,7 +110,7 @@
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
 		    <descriptors>
-                    <descriptor>src/main/assembly/dcacheview-jar.xml</descriptor>
+                    <descriptor>src/main/assembly/dcacheviewadmin-jar.xml</descriptor>
                     </descriptors>
 		    <finalName>${project.artifactId}-${project.version}</finalName>
                     <appendAssemblyId>false</appendAssemblyId>
