@@ -17,23 +17,7 @@
     // See https://github.com/Polymer/polymer/issues/1381
     window.addEventListener('WebComponentsReady', function() {
         // imports are loaded and elements have been registered
-        app.getQosInformation();
     });
-
-    app.getQosInformation = function()
-    {
-        const isSomebody = !(app.getAuthValue() ===
-            `Basic ${window.btoa('anonymous:nopassword')}`);
-        if (window.CONFIG.qos === undefined && isSomebody) {
-            const qos = new QosBackendInformation();
-            qos.auth = app.getAuthValue();
-            qos.apiEndPoint = window.CONFIG["dcache-view.endpoints.webapi"];
-            qos.addEventListener('qos-backend-response', (e) => {
-                window.CONFIG.qos = e.detail.response;
-            });
-            qos.trigger();
-        }
-    };
 
     app.menuAction = function(){
         app.$.dvDrawerPanel.togglePanel();
@@ -535,11 +519,6 @@
                 "periodical": true
             });
         }, 200);
-    });
-
-    window.addEventListener('paper-responsive-change', function (event) {
-        var narrow = event.detail.narrow;
-        app.$.mainMenu.hidden = !narrow;
     });
 
     //Ensure that paper-input in the dialog box is always focused

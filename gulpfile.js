@@ -14,7 +14,7 @@ const copyAllArray = [
     {"source" : "./src/favicons/*", "destination": `${buildDirectory}/favicons`},
     {"source" : "./src/styles/main.css", "destination": `${buildDirectory}/styles`},
     {"source" : "./target/elements/src/elements/elements.html", "destination": `${buildDirectory}/elements`},
-    {"source" : "./src/scripts/**/*", "destination": `${buildDirectory}/scripts`, "exclude": ["./src/scripts/config.js"]},
+    {"source" : "./src/scripts/**/*", "destination": `${buildDirectory}/scripts`},
     {"source" : "./src/bower_components/pdfjs-dist/build/**/*", "destination": `${buildDirectory}/bower_components/pdfjs-dist/build`},
     {"source" : "./src/bower_components/webcomponentsjs/**/*", "destination": `${buildDirectory}/bower_components/webcomponentsjs`}
 ];
