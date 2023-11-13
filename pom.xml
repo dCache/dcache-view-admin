@@ -54,7 +54,7 @@
         <url>https://github.com/dCache/dcache-view-admin</url>
         <connection>scm:git:https://github.com/dCache/dcache-view-admin.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/dCache/dcache-view-admin.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>3.0</tag>
     </scm>
 
     <repositories>
